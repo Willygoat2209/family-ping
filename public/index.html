@@ -5,85 +5,95 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="apple-mobile-web-app-capable" content="yes"/>
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-  <meta name="apple-mobile-web-app-title" content="Family Ping"/>
-  <title>Family Ping</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <meta name="apple-mobile-web-app-title" content="Bradshaw Ping"/>
+  <title>Bradshaw Ping</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #fff8f0;
-      --surface: #ffffff;
-      --border: #f0e8e0;
-      --text: #2d2016;
-      --muted: #a0907e;
-      --accent: #ff6b35;
-      --accent2: #4ecdc4;
-      --accent3: #ffe66d;
-      --green: #06d6a0;
-      --red: #ef476f;
-      --shadow: 0 4px 24px rgba(255,107,53,0.10);
+      --bg: #f5f3ef;
+      --surface: #fdfcfb;
+      --border: #e8e4de;
+      --text: #1c1a17;
+      --muted: #9a9186;
+      --sage: #b8c9b0;
+      --sage-light: #e8efe6;
+      --stone: #c4b8a8;
+      --stone-light: #f0ece6;
+      --accent: #7a9e8e;
+      --green: #6ba88a;
+      --red: #c07070;
+      --shadow: 0 2px 16px rgba(0,0,0,0.06);
     }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Nunito', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 24px 16px 48px;
+      padding: 32px 20px 60px;
     }
 
     header {
       text-align: center;
-      margin-bottom: 32px;
-      margin-top: 16px;
+      margin-bottom: 36px;
+      animation: fadeUp 0.6s ease both;
     }
 
-    .emoji-icon {
-      font-size: 3rem;
-      margin-bottom: 8px;
-      display: block;
+    .family-initial {
+      width: 56px;
+      height: 56px;
+      background: var(--sage);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.6rem;
+      color: white;
+      margin: 0 auto 16px;
     }
 
     h1 {
-      font-size: 2rem;
-      font-weight: 900;
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.75rem;
+      font-weight: 400;
       color: var(--text);
-      letter-spacing: -0.03em;
+      letter-spacing: -0.02em;
+      margin-bottom: 4px;
     }
 
     .tagline {
       color: var(--muted);
-      font-size: 14px;
-      margin-top: 4px;
-      font-weight: 600;
+      font-size: 13px;
+      font-weight: 400;
+      letter-spacing: 0.04em;
     }
 
     .card {
       background: var(--surface);
-      border: 2px solid var(--border);
-      border-radius: 20px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
       padding: 28px 24px;
       width: 100%;
-      max-width: 420px;
+      max-width: 400px;
       box-shadow: var(--shadow);
-      margin-bottom: 16px;
+      margin-bottom: 12px;
+      animation: fadeUp 0.6s ease both;
     }
 
     .card-title {
-      font-size: 12px;
-      font-weight: 800;
+      font-size: 11px;
+      font-weight: 600;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
-
-    /* Name setup */
-    #setupCard { }
 
     .name-input-row {
       display: flex;
@@ -92,76 +102,74 @@
 
     input[type="text"] {
       flex: 1;
-      padding: 14px 16px;
-      border: 2px solid var(--border);
+      padding: 13px 16px;
+      border: 1.5px solid var(--border);
       border-radius: 12px;
-      font-family: 'Nunito', sans-serif;
+      font-family: 'DM Sans', sans-serif;
       font-size: 15px;
-      font-weight: 700;
       color: var(--text);
       background: var(--bg);
       outline: none;
       transition: border-color 0.2s;
     }
-    input[type="text"]:focus { border-color: var(--accent); }
+    input[type="text"]::placeholder { color: var(--muted); }
+    input[type="text"]:focus { border-color: var(--sage); }
 
     .btn-primary {
-      padding: 14px 20px;
-      background: var(--accent);
+      padding: 13px 20px;
+      background: var(--sage);
       color: white;
       border: none;
       border-radius: 12px;
-      font-family: 'Nunito', sans-serif;
-      font-size: 15px;
-      font-weight: 800;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.15s;
       white-space: nowrap;
     }
-    .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn-primary:hover { background: var(--accent); transform: translateY(-1px); }
     .btn-primary:active { transform: translateY(0); }
     .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
 
-    /* Status bar */
     .status-bar {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 12px 16px;
+      padding: 11px 14px;
       background: var(--bg);
-      border: 2px solid var(--border);
-      border-radius: 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 500;
       color: var(--muted);
       margin-bottom: 20px;
     }
     .dot {
-      width: 9px; height: 9px;
+      width: 7px; height: 7px;
       border-radius: 50%;
-      background: var(--muted);
+      background: var(--stone);
       flex-shrink: 0;
       transition: all 0.3s;
     }
-    .dot.ok { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .dot.ok { background: var(--green); box-shadow: 0 0 6px var(--green); }
     .dot.err { background: var(--red); }
 
-    /* Preset buttons */
     .presets {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 16px;
+      gap: 8px;
+      margin-bottom: 14px;
     }
 
     .preset-btn {
-      padding: 18px 12px;
-      border: 2px solid var(--border);
+      padding: 16px 12px;
+      border: 1.5px solid var(--border);
       border-radius: 14px;
       background: var(--surface);
-      font-family: 'Nunito', sans-serif;
-      font-size: 14px;
-      font-weight: 800;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 500;
       color: var(--text);
       cursor: pointer;
       transition: all 0.15s;
@@ -169,44 +177,62 @@
       line-height: 1.4;
     }
     .preset-btn:hover {
-      border-color: var(--accent);
-      background: #fff3ee;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(255,107,53,0.15);
+      border-color: var(--sage);
+      background: var(--sage-light);
+      transform: translateY(-1px);
+      box-shadow: 0 3px 10px rgba(184,201,176,0.25);
     }
     .preset-btn:active { transform: translateY(0); }
-    .preset-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-    .preset-btn .emoji { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+    .preset-btn:disabled { opacity: 0.35; cursor: not-allowed; transform: none; }
+    .preset-btn .emoji { font-size: 1.4rem; display: block; margin-bottom: 5px; }
+    .preset-btn .label { font-size: 12px; color: var(--muted); }
 
-    /* Custom message */
-    .custom-row {
+    .divider {
       display: flex;
-      gap: 10px;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .divider span {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
     }
 
-    /* Activity log */
+    .custom-row { display: flex; gap: 10px; }
+
     .log-entries {
       display: flex;
       flex-direction: column;
-      gap: 8px;
-      max-height: 180px;
+      gap: 6px;
+      max-height: 160px;
       overflow-y: auto;
     }
     .log-entry {
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
       color: var(--muted);
       padding: 8px 12px;
       background: var(--bg);
       border-radius: 8px;
-      border-left: 3px solid var(--border);
+      border-left: 2px solid var(--border);
       animation: fadeIn 0.3s ease;
     }
-    .log-entry.ok { border-color: var(--green); color: #059669; }
+    .log-entry.ok { border-color: var(--green); color: var(--green); }
     .log-entry.err { border-color: var(--red); color: var(--red); }
 
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
+      from { opacity: 0; transform: translateY(3px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -216,57 +242,50 @@
 <body>
 
 <header>
-  <span class="emoji-icon">🏠</span>
-  <h1>Family Ping</h1>
-  <p class="tagline">Instant pings for the whole family</p>
+  <div class="family-initial">B</div>
+  <h1>Bradshaw Ping</h1>
+  <p class="tagline">Family updates, instantly</p>
 </header>
 
-<!-- Step 1: Enter name -->
 <div class="card" id="setupCard">
-  <div class="card-title">Who are you?</div>
+  <div class="card-title">Who's checking in?</div>
   <div class="name-input-row">
     <input type="text" id="nameInput" placeholder="Your name..." maxlength="20"/>
-    <button class="btn-primary" id="joinBtn">Join →</button>
+    <button class="btn-primary" id="joinBtn">Join</button>
   </div>
 </div>
 
-<!-- Step 2: Send pings -->
 <div class="card" id="pingCard">
   <div class="card-title">Send a ping</div>
-
   <div class="status-bar">
     <div class="dot" id="dot"></div>
     <span id="statusText">Connecting...</span>
   </div>
-
   <div class="presets">
-    <button class="preset-btn" data-msg="I'm home! 🏠" disabled>
-      <span class="emoji">🏠</span>I'm home!
+    <button class="preset-btn" data-msg="Arrived safely ✅" disabled>
+      <span class="emoji">✅</span>
+      <span class="label">Arrived safely</span>
     </button>
     <button class="preset-btn" data-msg="Come eat! 🍽️" disabled>
-      <span class="emoji">🍽️</span>Come eat!
+      <span class="emoji">🍽️</span>
+      <span class="label">Come eat</span>
     </button>
     <button class="preset-btn" data-msg="On my way 🚗" disabled>
-      <span class="emoji">🚗</span>On my way
+      <span class="emoji">🚗</span>
+      <span class="label">On my way</span>
     </button>
-    <button class="preset-btn" data-msg="Need help ❗" disabled>
-      <span class="emoji">❗</span>Need help!
-    </button>
-    <button class="preset-btn" data-msg="Goodnight 🌙" disabled>
-      <span class="emoji">🌙</span>Goodnight
-    </button>
-    <button class="preset-btn" data-msg="Call me 📞" disabled>
-      <span class="emoji">📞</span>Call me
+    <button class="preset-btn" data-msg="Come home 🏠" disabled>
+      <span class="emoji">🏠</span>
+      <span class="label">Come home</span>
     </button>
   </div>
-
+  <div class="divider"><span>or</span></div>
   <div class="custom-row">
-    <input type="text" id="customMsg" placeholder="Custom message..." maxlength="80" disabled/>
+    <input type="text" id="customMsg" placeholder="Write a message..." maxlength="80" disabled/>
     <button class="btn-primary" id="sendCustomBtn" disabled>Send</button>
   </div>
 </div>
 
-<!-- Log -->
 <div class="card" id="logCard">
   <div class="card-title">Activity</div>
   <div class="log-entries" id="logEntries">
@@ -277,7 +296,7 @@
 <script>
   const VAPID_PUBLIC_KEY = "BCcJlsk3-RbjZc64P2gQ8ICSrbO4WehcvX3QLXWCKzc_WFos4N9AVhHd2zJ4kcSBC7Smpo3dhbWdRi23SZb2si4";
 
-  let myName = localStorage.getItem("familyPingName") || "";
+  let myName = localStorage.getItem("bradshawPingName") || "";
   let subscription = null;
 
   const setupCard = document.getElementById("setupCard");
@@ -295,7 +314,7 @@
   function log(msg, type = "") {
     const el = document.createElement("div");
     el.className = "log-entry" + (type ? " " + type : "");
-    el.textContent = `${new Date().toLocaleTimeString()} — ${msg}`;
+    el.textContent = `${new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'})} — ${msg}`;
     if (logEntries.children[0]?.textContent === "No activity yet...") logEntries.innerHTML = "";
     logEntries.prepend(el);
     if (logEntries.children.length > 10) logEntries.lastChild.remove();
@@ -321,7 +340,7 @@
 
   async function setup(name) {
     myName = name;
-    localStorage.setItem("familyPingName", name);
+    localStorage.setItem("bradshawPingName", name);
     setupCard.style.display = "none";
     pingCard.style.display = "block";
     logCard.style.display = "block";
@@ -342,13 +361,12 @@
         return;
       }
 
-      setStatus("Subscribing...");
+      setStatus("Connecting...");
       subscription = await reg.pushManager.subscribe({
         userVisibleOnly: true,
         applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
       });
 
-      // Save to Supabase via our function
       const res = await fetch("/.netlify/functions/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -357,11 +375,11 @@
 
       const data = await res.json();
       if (data.success) {
-        setStatus(`Ready — logged in as ${name}`, "ok");
+        setStatus(`Ready — ${name}`, "ok");
         log(`Joined as ${name}`, "ok");
         enableControls();
       } else {
-        setStatus("Failed to register", "err");
+        setStatus("Failed to connect", "err");
         log("Error: " + data.error, "err");
       }
     } catch (err) {
@@ -383,7 +401,7 @@
       });
       const data = await res.json();
       if (data.success) {
-        log(`Ping sent to ${data.sent} ${data.sent === 1 ? "person" : "people"}!`, "ok");
+        log(`Sent to ${data.sent} ${data.sent === 1 ? "person" : "people"}!`, "ok");
       } else {
         log("Error: " + (data.error || "unknown"), "err");
       }
@@ -395,20 +413,13 @@
     }
   }
 
-  // Join button
   joinBtn.addEventListener("click", () => {
     const name = nameInput.value.trim();
     if (!name) return;
     setup(name);
   });
   nameInput.addEventListener("keydown", e => { if (e.key === "Enter") joinBtn.click(); });
-
-  // Preset buttons
-  presetBtns.forEach(btn => {
-    btn.addEventListener("click", () => sendPing(btn.dataset.msg));
-  });
-
-  // Custom message
+  presetBtns.forEach(btn => btn.addEventListener("click", () => sendPing(btn.dataset.msg)));
   sendCustomBtn.addEventListener("click", () => {
     const msg = customMsg.value.trim();
     if (!msg) return;
@@ -416,11 +427,7 @@
   });
   customMsg.addEventListener("keydown", e => { if (e.key === "Enter") sendCustomBtn.click(); });
 
-  // Auto-rejoin if name saved
-  if (myName) {
-    nameInput.value = myName;
-    setup(myName);
-  }
+  if (myName) { nameInput.value = myName; setup(myName); }
 </script>
 </body>
 </html>
