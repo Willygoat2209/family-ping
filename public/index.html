@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Family Ping"/>
+  <title>Family Ping</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #fff8f0;
+      --surface: #ffffff;
+      --border: #f0e8e0;
+      --text: #2d2016;
+      --muted: #a0907e;
+      --accent: #ff6b35;
+      --accent2: #4ecdc4;
+      --accent3: #ffe66d;
+      --green: #06d6a0;
+      --red: #ef476f;
+      --shadow: 0 4px 24px rgba(255,107,53,0.10);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Nunito', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 48px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      margin-top: 16px;
+    }
+
+    .emoji-icon {
+      font-size: 3rem;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--text);
+      letter-spacing: -0.03em;
+    }
+
+    .tagline {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      padding: 28px 24px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    /* Name setup */
+    #setupCard { }
+
+    .name-input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      background: var(--bg);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input[type="text"]:focus { border-color: var(--accent); }
+
+    .btn-primary {
+      padding: 14px 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-family: 'Nunito', sans-serif;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { filter: brightness(1.08); transform: translateY(-1px); }
+    .btn-primary:active { transform: translateY(0); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+    /* Status bar */
+    .status-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--bg);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .dot {
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+      transition: all 0.3s;
+    }
+    .dot.ok { background: var(--green); box-shadow: 0 0 8px var(--green); }
+    .dot.err { background: var(--red); }
+
+    /* Preset buttons */
+    .presets {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .preset-btn {
+      padding: 18px 12px;
+      border: 2px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      font-family: 'Nunito', sans-serif;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-align: center;
+      line-height: 1.4;
+    }
+    .preset-btn:hover {
+      border-color: var(--accent);
+      background: #fff3ee;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(255,107,53,0.15);
+    }
+    .preset-btn:active { transform: translateY(0); }
+    .preset-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .preset-btn .emoji { font-size: 1.8rem; display: block; margin-bottom: 4px; }
+
+    /* Custom message */
+    .custom-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    /* Activity log */
+    .log-entries {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+    .log-entry {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+      padding: 8px 12px;
+      background: var(--bg);
+      border-radius: 8px;
+      border-left: 3px solid var(--border);
+      animation: fadeIn 0.3s ease;
+    }
+    .log-entry.ok { border-color: var(--green); color: #059669; }
+    .log-entry.err { border-color: var(--red); color: var(--red); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #pingCard, #logCard { display: none; }
+  </style>
+</head>
+<body>
+
+<header>
+  <span class="emoji-icon">🏠</span>
+  <h1>Family Ping</h1>
+  <p class="tagline">Instant pings for the whole family</p>
+</header>
+
+<!-- Step 1: Enter name -->
+<div class="card" id="setupCard">
+  <div class="card-title">Who are you?</div>
+  <div class="name-input-row">
+    <input type="text" id="nameInput" placeholder="Your name..." maxlength="20"/>
+    <button class="btn-primary" id="joinBtn">Join →</button>
+  </div>
+</div>
+
+<!-- Step 2: Send pings -->
+<div class="card" id="pingCard">
+  <div class="card-title">Send a ping</div>
+
+  <div class="status-bar">
+    <div class="dot" id="dot"></div>
+    <span id="statusText">Connecting...</span>
+  </div>
+
+  <div class="presets">
+    <button class="preset-btn" data-msg="I'm home! 🏠" disabled>
+      <span class="emoji">🏠</span>I'm home!
+    </button>
+    <button class="preset-btn" data-msg="Come eat! 🍽️" disabled>
+      <span class="emoji">🍽️</span>Come eat!
+    </button>
+    <button class="preset-btn" data-msg="On my way 🚗" disabled>
+      <span class="emoji">🚗</span>On my way
+    </button>
+    <button class="preset-btn" data-msg="Need help ❗" disabled>
+      <span class="emoji">❗</span>Need help!
+    </button>
+    <button class="preset-btn" data-msg="Goodnight 🌙" disabled>
+      <span class="emoji">🌙</span>Goodnight
+    </button>
+    <button class="preset-btn" data-msg="Call me 📞" disabled>
+      <span class="emoji">📞</span>Call me
+    </button>
+  </div>
+
+  <div class="custom-row">
+    <input type="text" id="customMsg" placeholder="Custom message..." maxlength="80" disabled/>
+    <button class="btn-primary" id="sendCustomBtn" disabled>Send</button>
+  </div>
+</div>
+
+<!-- Log -->
+<div class="card" id="logCard">
+  <div class="card-title">Activity</div>
+  <div class="log-entries" id="logEntries">
+    <div class="log-entry">No activity yet...</div>
+  </div>
+</div>
+
+<script>
+  const VAPID_PUBLIC_KEY = "BCcJlsk3-RbjZc64P2gQ8ICSrbO4WehcvX3QLXWCKzc_WFos4N9AVhHd2zJ4kcSBC7Smpo3dhbWdRi23SZb2si4";
+
+  let myName = localStorage.getItem("familyPingName") || "";
+  let subscription = null;
+
+  const setupCard = document.getElementById("setupCard");
+  const pingCard = document.getElementById("pingCard");
+  const logCard = document.getElementById("logCard");
+  const nameInput = document.getElementById("nameInput");
+  const joinBtn = document.getElementById("joinBtn");
+  const dot = document.getElementById("dot");
+  const statusText = document.getElementById("statusText");
+  const logEntries = document.getElementById("logEntries");
+  const customMsg = document.getElementById("customMsg");
+  const sendCustomBtn = document.getElementById("sendCustomBtn");
+  const presetBtns = document.querySelectorAll(".preset-btn");
+
+  function log(msg, type = "") {
+    const el = document.createElement("div");
+    el.className = "log-entry" + (type ? " " + type : "");
+    el.textContent = `${new Date().toLocaleTimeString()} — ${msg}`;
+    if (logEntries.children[0]?.textContent === "No activity yet...") logEntries.innerHTML = "";
+    logEntries.prepend(el);
+    if (logEntries.children.length > 10) logEntries.lastChild.remove();
+  }
+
+  function setStatus(text, state = "") {
+    statusText.textContent = text;
+    dot.className = "dot" + (state ? " " + state : "");
+  }
+
+  function enableControls() {
+    presetBtns.forEach(b => b.disabled = false);
+    customMsg.disabled = false;
+    sendCustomBtn.disabled = false;
+  }
+
+  function urlBase64ToUint8Array(base64String) {
+    const padding = "=".repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+    const rawData = atob(base64);
+    return new Uint8Array([...rawData].map(c => c.charCodeAt(0)));
+  }
+
+  async function setup(name) {
+    myName = name;
+    localStorage.setItem("familyPingName", name);
+    setupCard.style.display = "none";
+    pingCard.style.display = "block";
+    logCard.style.display = "block";
+    setStatus("Requesting permission...");
+
+    if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
+      setStatus("Not supported in this browser", "err");
+      log("Push not supported in this browser", "err");
+      return;
+    }
+
+    try {
+      const reg = await navigator.serviceWorker.register("/sw.js");
+      const permission = await Notification.requestPermission();
+      if (permission !== "granted") {
+        setStatus("Permission denied", "err");
+        log("Notification permission denied", "err");
+        return;
+      }
+
+      setStatus("Subscribing...");
+      subscription = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY),
+      });
+
+      // Save to Supabase via our function
+      const res = await fetch("/.netlify/functions/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, subscription }),
+      });
+
+      const data = await res.json();
+      if (data.success) {
+        setStatus(`Ready — logged in as ${name}`, "ok");
+        log(`Joined as ${name}`, "ok");
+        enableControls();
+      } else {
+        setStatus("Failed to register", "err");
+        log("Error: " + data.error, "err");
+      }
+    } catch (err) {
+      setStatus("Error: " + err.message, "err");
+      log(err.message, "err");
+    }
+  }
+
+  async function sendPing(message) {
+    presetBtns.forEach(b => b.disabled = true);
+    sendCustomBtn.disabled = true;
+    log(`Sending: "${message}"`);
+
+    try {
+      const res = await fetch("/.netlify/functions/ping", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ senderName: myName, message }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        log(`Ping sent to ${data.sent} ${data.sent === 1 ? "person" : "people"}!`, "ok");
+      } else {
+        log("Error: " + (data.error || "unknown"), "err");
+      }
+    } catch (err) {
+      log("Error: " + err.message, "err");
+    } finally {
+      enableControls();
+      customMsg.value = "";
+    }
+  }
+
+  // Join button
+  joinBtn.addEventListener("click", () => {
+    const name = nameInput.value.trim();
+    if (!name) return;
+    setup(name);
+  });
+  nameInput.addEventListener("keydown", e => { if (e.key === "Enter") joinBtn.click(); });
+
+  // Preset buttons
+  presetBtns.forEach(btn => {
+    btn.addEventListener("click", () => sendPing(btn.dataset.msg));
+  });
+
+  // Custom message
+  sendCustomBtn.addEventListener("click", () => {
+    const msg = customMsg.value.trim();
+    if (!msg) return;
+    sendPing(msg);
+  });
+  customMsg.addEventListener("keydown", e => { if (e.key === "Enter") sendCustomBtn.click(); });
+
+  // Auto-rejoin if name saved
+  if (myName) {
+    nameInput.value = myName;
+    setup(myName);
+  }
+</script>
+</body>
+</html>
